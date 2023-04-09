@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit'
 import { getTrendingMovies } from '../api/baseApi'
 import '../components/collection-component'
+import '../components/billboard-component'
 import { createCategorySlide } from '../utils/index'
 import { goTo } from '../router'
 
@@ -20,6 +21,7 @@ export class Home extends LitElement {
   }
   render() {
     return html`
+      <billboard-component></billboard-component>
       <collection-component></collection-component>
       <collection-component></collection-component>
       <collection-component></collection-component>
