@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit'
 import { getTrendingMovies } from '../api/baseApi'
+import '../components/collection-component'
 import { createCategorySlide } from '../utils/index'
 import { goTo } from '../router'
 
@@ -7,26 +8,24 @@ export class Home extends LitElement {
   static styles = [
     css`
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
       }
     `
   ]
   async firstUpdated() {
     const link = this.renderRoot?.querySelector('button') ?? null
     const { movies } = await getTrendingMovies()
-    console.log(movies)
-    const getTrends = createCategorySlide(movies, 'Tendencias')
-    link.addEventListener('click', (e) => {
-      console.log(link)
-      window.history.state === null && window.location.pathname !== '/mylist'
-        ? goTo('/mylist')
-        : window.history.back()
-    })
   }
   render() {
-    return html`<div>
-      <button>mylist</button>
-    </div>`
+    return html`
+      <collection-component></collection-component>
+      <collection-component></collection-component>
+      <collection-component></collection-component>
+      <collection-component></collection-component>
+      <collection-component></collection-component>
+    `
   }
 }
 customElements.define('home-page', Home)
