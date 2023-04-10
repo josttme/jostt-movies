@@ -7,14 +7,10 @@ export class BillboardComponent extends LitElement {
         display: block;
         position: relative;
         width: 100%;
-        margin: 0 auto;
-        background-color: #000019;
-        color: #fff;
-        overflow: hidden;
       }
       .img-container {
+        height: 30vh;
         width: 100%;
-        height: 80vh;
         position: relative;
       }
       .img-container img {
@@ -28,14 +24,14 @@ export class BillboardComponent extends LitElement {
       .logo-movie-container {
         position: absolute;
         height: 100%;
-        width: 55vw;
+        width: 70vw;
         display: grid;
         place-content: center;
         z-index: 10;
       }
 
       .logo-movie-container img {
-        width: 500px;
+        width: 15rem;
         opacity: 0;
         transform: translateX(-50px);
         animation: fadeInUp 1s ease forwards;
@@ -48,6 +44,18 @@ export class BillboardComponent extends LitElement {
         100% {
           opacity: 1;
           transform: translateX(0);
+        }
+      }
+      @media (min-width: 1000px) {
+        .img-container {
+          height: 80vh;
+        }
+
+        .logo-movie-container {
+          width: 55vw;
+        }
+        .logo-movie-container img {
+          width: 500px;
         }
       }
     `

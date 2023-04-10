@@ -3,67 +3,99 @@ import './movie-component'
 import collection from '../styles/components/collecion.scss?inline'
 
 export class CollectionComponent extends LitElement {
+  static get properties() {
+    return {}
+  }
+  constructor() {
+    super()
+    this.trends
+  }
   static styles = [
     css`
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       :host {
         display: block;
+        font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial,
+          sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+        color: rgba(255, 255, 255, 0.8);
         overflow: hidden;
       }
+      h4 {
+        font-size: 1.5rem;
+        margin-left: 0.3rem;
+      }
       .carousel-container {
-        position: relative;
-        margin: 0 auto;
-        width: 85%;
-        /*  max-width: 1200px; */
+        width: 100%;
       }
 
       .movie-carousel {
         display: flex;
         width: 100%;
-        background-color: transparent;
       }
 
       .movie-container {
-        background-color: transparent;
         display: flex;
-        flex-wrap: nowrap;
-        width: 2000px;
-        /*  overflow-x: scroll; */
-        gap: 10px;
+        overflow-x: scroll;
+        gap: 0.3rem;
+        padding: 0.3rem;
         transition: transform 0.3s ease-in-out;
       }
-      /* .movie-container::-webkit-scrollbar {
+      .movie-container::-webkit-scrollbar {
         display: none;
-      } */
-
-      .movie-container .movie {
-        width: calc(15% - 20px); /* Anchura de cada imagen */
       }
 
       .carousel-buttons {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
+        display: none;
       }
+      @media (min-width: 1000px) {
+        .carousel-container {
+          position: relative;
+          margin: 0 auto;
+          width: 85%;
+        }
+        .movie-container {
+          background-color: transparent;
+          display: flex;
+          flex-wrap: nowrap;
+          width: 2000px;
+          overflow-x: visible;
+          gap: 10px;
+          transition: transform 0.3s ease-in-out;
+        }
+        .movie-container .movie {
+          width: calc(15% - 20px); /* Anchura de cada imagen */
+        }
+        .carousel-buttons {
+          display: block;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+        }
 
-      .prev-button,
-      .next-button {
-        background-color: #fff;
-        border: none;
-        color: #000;
-        font-size: 1.5rem;
-        padding: 10px;
-        cursor: pointer;
-      }
+        .prev-button,
+        .next-button {
+          background-color: #fff;
+          border: none;
+          color: #000;
+          font-size: 1.5rem;
+          padding: 10px;
+          cursor: pointer;
+        }
 
-      .prev-button {
-        margin-right: 10px;
-      }
+        .prev-button {
+          margin-right: 10px;
+        }
 
-      .prev-button[disabled],
-      .next-button[disabled] {
-        color: #ccc;
-        cursor: not-allowed;
+        .prev-button[disabled],
+        .next-button[disabled] {
+          color: #ccc;
+          cursor: not-allowed;
+        }
       }
     `
   ]
@@ -74,7 +106,6 @@ export class CollectionComponent extends LitElement {
     const prevButton = this.shadowRoot?.querySelector('.prev-button') ?? null
 
     const containerWidth = movieContainer.offsetWidth
-    console.log(containerWidth)
 
     prevButton.disabled = true
     prevButton.style.display = 'none'
@@ -96,33 +127,17 @@ export class CollectionComponent extends LitElement {
       toggleButtons(nextButton, prevButton)
     })
   }
-
   render() {
     return html`
       <div class="carousel-container">
         <h4>Titulo</h4>
         <div class="movie-carousel">
           <div class="movie-container">
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
-            <movie-component class="movie"></movie-component>
+            ${this.trends.map((trend) => {
+              return html`
+                <movie-component class="movie" image=${trend.poster_path}></movie-component>
+              `
+            })}
           </div>
         </div>
         <div class="carousel-buttons">

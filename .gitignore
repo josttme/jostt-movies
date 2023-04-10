@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 public
 dist
+src/mocks
 dist-ssr
 *.local
 
