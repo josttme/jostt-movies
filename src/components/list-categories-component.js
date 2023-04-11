@@ -1,11 +1,16 @@
 import { LitElement, html, css } from 'lit'
-import resultsCategories from '../mocks/results-categories.json'
+import { getCategories } from '../api/baseApi'
 import { goTo } from '../router'
 
 export class ListCategoriesComponent extends LitElement {
+  static get properties() {
+    return {
+      categories: { type: Array }
+    }
+  }
   constructor() {
     super()
-    this.categories = resultsCategories.genres
+    this.categories = []
   }
   static styles = [
     css`
@@ -54,7 +59,10 @@ export class ListCategoriesComponent extends LitElement {
       }
     `
   ]
-
+  async firstUpdated() {
+    const { listCategories } = await getCategories()
+    this.categories = listCategories
+  }
   render() {
     return html`
       ${this.categories.map((category) => {

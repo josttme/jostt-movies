@@ -1,32 +1,27 @@
-export function createCategorySlide(movies, nameCategory, id) {
-  let titleCategory = nameCategory
-  nameCategory === 'Tendencias'
-    ? (nameCategory = 'Tendencias')
-    : (nameCategory = `category=${id}-${nameCategory}`)
+import { getCategories, getMoviesByCategory } from '../api/baseApi'
+export async function divideArray() {
+  const { listCategories } = await getCategories()
+  let size = 4
+  const result = []
+  for (let i = 0; i < listCategories.length; i += size) {
+    result.push(listCategories.slice(i, i + size))
+  }
+  return result
+}
+const showPage = (arr, page, pageSize) => {
+  const startIndex = page * pageSize
+  const endIndex = startIndex + pageSize
+  for (let i = startIndex; i < endIndex && i < arr.length; i++) {
+    return arr[i]
+  }
+}
 
-  const isNotHome =
-    location.pathname.startsWith('/mylist') ||
-    location.pathname.startsWith('/category') ||
-    location.pathname.startsWith('/trends')
-
-  const link = (name) => `<more-category-component link=${name}></more-category-component>`
-  return `
-		<category-container-component img="${movies
-      .map(
-        (movie) => `
-			<movie-component src='https://image.tmdb.org/t/p/w300${
-        movie.poster_path ? movie.poster_path : movie.posterImage
-      }'
-						linkMovie='${movie.id ? movie.id : movie.idMovie}'
-						title='${movie.original_title}'
-						releaseYear='${movie.release_date}'
-					>
-					</movie-component>`
-      )
-      .join('')}"
-			title="${titleCategory}"
-			link="${!isNotHome ? link(nameCategory) : ''}"
-			>
-		</category-container-component>
-	`
+export async function getCategoriesById(listCategories, page, pageSize) {
+  let partsOfCategoryList = showPage(listCategories, page, pageSize)
+  const moviesCategoriesPage = []
+  for (const category of partsOfCategoryList) {
+    const { moviesCategories } = await getMoviesByCategory(category.id)
+    moviesCategoriesPage.push([category.name, moviesCategories])
+  }
+  return Promise.all(moviesCategoriesPage)
 }

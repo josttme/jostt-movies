@@ -8,12 +8,36 @@ const api = axios.create({
 })
 
 export async function getTrendingMovies(page) {
-  const {
-    data: { results: movies, total_pages: totalPagesApi }
-  } = await api('trending/movie/day', {
-    params: {
-      page
-    }
+  const res = await api('trending/movie/day', {
+    params: { page }
   })
+  const movies = res.data.results.map((movie) => ({
+    id: movie.id,
+    title: movie.title,
+    poster: movie.poster_path
+  }))
+  const totalPagesApi = res.data.total_pages
   return { movies, totalPagesApi }
+}
+
+export async function getCategories() {
+  const res = await api('genre/movie/list')
+  const listCategories = res.data.genres.map((category) => ({
+    id: category.id,
+    name: category.name
+  }))
+  return { listCategories }
+}
+
+// prettier-ignore
+export async function getMoviesByCategory(id) {
+	const res = await api('discover/movie', {
+		params: { with_genres: id},
+	})
+  const moviesCategories = res.data.results.map((category) => ({
+    id: category.id,
+    title: category.title,
+    poster: category.poster_path
+  }))
+	return {moviesCategories}
 }

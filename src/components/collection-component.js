@@ -1,14 +1,15 @@
-import { LitElement, html, unsafeCSS, css } from 'lit'
+import { LitElement, html, css } from 'lit'
 import './movie-component'
-import collection from '../styles/components/collecion.scss?inline'
 
 export class CollectionComponent extends LitElement {
   static get properties() {
-    return {}
+    return {
+      moviesCollection: { type: Array, attribute: true }
+    }
   }
   constructor() {
     super()
-    this.trends
+    this.moviesCollection = []
   }
   static styles = [
     css`
@@ -128,16 +129,21 @@ export class CollectionComponent extends LitElement {
     })
   }
   render() {
+    const moviesToRender = this.moviesCollection.map((trend) => {
+      return html` <movie-component class="movie" image=${trend.poster}></movie-component> `
+    })
     return html`
       <div class="carousel-container">
-        <h4>Titulo</h4>
+        <h4>${this.moviesCollection.length <= 2 ? this.moviesCollection[0] : 'Trends'}</h4>
         <div class="movie-carousel">
           <div class="movie-container">
-            ${this.trends.map((trend) => {
-              return html`
-                <movie-component class="movie" image=${trend.poster_path}></movie-component>
-              `
-            })}
+            ${this.moviesCollection.length <= 2
+              ? this.moviesCollection[1].map((trend) => {
+                  return html`
+                    <movie-component class="movie" image=${trend.poster}></movie-component>
+                  `
+                })
+              : moviesToRender}
           </div>
         </div>
         <div class="carousel-buttons">
