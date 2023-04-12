@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit'
+import { registerImage } from '../utils/lazy-loading'
 
 export class MovieComponent extends LitElement {
   static get properties() {
@@ -23,6 +24,7 @@ export class MovieComponent extends LitElement {
       .skeleton-loading {
         background-color: #000019a9;
         animation: skeleton-loading 0.7s ease-in-out infinite alternate;
+        z-index: 50;
       }
       @keyframes skeleton-loading {
         from {
@@ -39,7 +41,10 @@ export class MovieComponent extends LitElement {
       }
     `
   ]
-
+  firstUpdated() {
+    const img = this.shadowRoot.querySelector('img')
+    registerImage(img)
+  }
   render() {
     return html`
       <img
