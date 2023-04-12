@@ -4,7 +4,7 @@ export const useObserver = (element, options) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          resolve(entry.isIntersecting)
+          resolve(entry)
           observer.unobserve(element)
         }
       },

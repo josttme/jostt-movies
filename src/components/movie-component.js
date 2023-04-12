@@ -20,6 +20,18 @@ export class MovieComponent extends LitElement {
         height: 100%;
         border-radius: 4px;
       }
+      .skeleton-loading {
+        background-color: #000019a9;
+        animation: skeleton-loading 0.7s ease-in-out infinite alternate;
+      }
+      @keyframes skeleton-loading {
+        from {
+          opacity: 0.5;
+        }
+        to {
+          opacity: 1;
+        }
+      }
       @media (min-width: 1000px) {
         :host {
           flex: 0 0 calc(10% - 10px);
@@ -29,7 +41,13 @@ export class MovieComponent extends LitElement {
   ]
 
   render() {
-    return html` <img src=${`https://image.tmdb.org/t/p/w300/${this.image}`} /> `
+    return html`
+      <img
+        class="skeleton-loading"
+        src="https://res.cloudinary.com/josttme/image/upload/v1681269401/jostt.me/images/images/transparent_xz4qvr_zlokwp.webp"
+        data-src=${`https://image.tmdb.org/t/p/w300/${this.image}`}
+      />
+    `
   }
 }
 customElements.define('movie-component', MovieComponent)
