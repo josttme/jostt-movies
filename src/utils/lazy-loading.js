@@ -16,7 +16,7 @@ const loadImages = (entries, observer) => {
 const options = {
   root: null,
   rootMargin: '500px 0px 500px 0px',
-  threshold: 0.1
+  threshold: 0
 }
 
 // Creando instanicia del observador

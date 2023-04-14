@@ -1,3 +1,6 @@
+@import '../utils/variables'; // Variables
+$black: #000;
+
 $handle-size: 9rem;
 $slider-padding: 6.5%;
 $img-gap: 0.25rem;
@@ -5,7 +8,7 @@ $img-gap: 0.25rem;
   display: block;
   width: 100%;
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin: 1rem 0 0 0.25rem;
   }
   & .container {
@@ -26,34 +29,7 @@ $img-gap: 0.25rem;
     }
   }
 }
-:host-context(generic-category-component),
-:host-context(my-list) {
-  max-width: 1000px;
-  margin: 0 auto;
-  h4 {
-    padding: 0.5rem;
-  }
-  & .container {
-    width: 100%;
-    &-slider {
-      gap: 0;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    &-handle {
-      display: none;
-    }
-  }
-}
 
-@media (min-width: 768px) {
-  :host-context(generic-category-component),
-  :host-context(my-list) {
-    .container-slider {
-      gap: 1rem;
-    }
-  }
-}
 @media (min-width: 1000px) {
   :host {
     h4 {
@@ -71,7 +47,7 @@ $img-gap: 0.25rem;
         border: none;
         border-radius: 10px;
         flex-shrink: 0;
-        background-color: rgba(#000, 0.7);
+        background-color: rgba($black, 0.7);
         margin: $img-gap 0;
         width: $handle-size;
         cursor: pointer;
@@ -89,7 +65,7 @@ $img-gap: 0.25rem;
         }
         &:hover,
         &:focus {
-          background-color: rgba(#000, 0.9);
+          background-color: rgba($black, 0.9);
         }
         & img {
           width: 25%;
@@ -101,12 +77,6 @@ $img-gap: 0.25rem;
           scale: 1.1;
         }
       }
-    }
-  }
-  :host-context(generic-category-component),
-  :host-context(my-list) {
-    .container-slider {
-      grid-template-columns: repeat(4, 1fr);
     }
   }
 }

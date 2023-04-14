@@ -1,6 +1,6 @@
-import { LitElement, html, css } from 'lit'
+import { LitElement, html, css, unsafeCSS } from 'lit'
 import './movie-component'
-
+import collection from '../styles/components/collecion.scss?inline'
 export class CollectionComponent extends LitElement {
   static get properties() {
     return {
@@ -10,6 +10,22 @@ export class CollectionComponent extends LitElement {
   constructor() {
     super()
     this.moviesCollection = []
+    this.observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.target === this.slider.lastElementChild) {
+            this.handleIntersection(entry, this.rightHandle)
+          } else {
+            this.handleIntersection(entry, this.leftHandle)
+          }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '1000px 10px 1000px 10px',
+        threshold: 1
+      }
+    )
   }
   static styles = [
     css`
@@ -42,7 +58,6 @@ export class CollectionComponent extends LitElement {
         display: flex;
         overflow-x: scroll;
         gap: 0.3rem;
-        padding: 0.3rem;
         transition: transform 0.3s ease-in-out;
       }
       .movie-container::-webkit-scrollbar {
@@ -52,13 +67,15 @@ export class CollectionComponent extends LitElement {
       .carousel-buttons {
         display: none;
       }
+
       @media (min-width: 1000px) {
         .carousel-container {
-          position: relative;
           margin: 0 auto;
-          width: 85%;
+          /*  width: 85%; */
         }
         .movie-container {
+          position: relative;
+
           background-color: transparent;
           display: flex;
           flex-wrap: nowrap;
@@ -73,21 +90,33 @@ export class CollectionComponent extends LitElement {
         .carousel-buttons {
           display: block;
           position: absolute;
+          width: 100%;
           top: 50%;
           transform: translateY(-50%);
           z-index: 10;
+          background-color: #000;
+        }
+        .movie-container movie-component.outside {
+          opacity: 0.1; /* Reduce la opacidad de los elementos que están fuera del ancho del contenedor */
         }
 
         .prev-button,
         .next-button {
-          background-color: #fff;
+          background-color: #000;
           border: none;
           color: #000;
           font-size: 1.5rem;
-          padding: 10px;
+        }
+        .next-button {
+          position: absolute;
+          bottom: 0;
+          opacity: 0.5;
+          border-radius: 4px;
+          height: 100%;
+          z-index: 50;
+          aspect-ratio: 2/3;
           cursor: pointer;
         }
-
         .prev-button {
           margin-right: 10px;
         }
@@ -98,58 +127,101 @@ export class CollectionComponent extends LitElement {
           cursor: not-allowed;
         }
       }
+    `,
+    unsafeCSS(collection),
+    css`
+      .container-slider {
+        --slider-index: 0;
+        transform: translateX(calc(var(--slider-index) * 100%));
+      }
+      .hidden {
+        opacity: 0;
+        cursor: default;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .visible {
+        opacity: 1;
+        cursor: pointer;
+        pointer-events: auto;
+        z-index: 15;
+      }
     `
   ]
 
   firstUpdated() {
-    const movieContainer = this.shadowRoot?.querySelector('.movie-container') ?? null
-    const nextButton = this.shadowRoot?.querySelector('.next-button') ?? null
-    const prevButton = this.shadowRoot?.querySelector('.prev-button') ?? null
-
-    const containerWidth = movieContainer.offsetWidth
-
-    prevButton.disabled = true
-    prevButton.style.display = 'none'
-
-    function toggleButtons(btn1, btn2) {
-      ;[btn1, btn2].forEach((btn) => {
-        btn.disabled = !btn.disabled
-        btn.style.display = btn.disabled ? 'none' : 'block'
-      })
-    }
-
-    prevButton.addEventListener('click', () => {
-      movieContainer.style.transform = `translateX(0px)`
-      toggleButtons(prevButton, nextButton)
-    })
-
-    nextButton.addEventListener('click', () => {
-      movieContainer.style.transform = `translateX(-${containerWidth}px)`
-      toggleButtons(nextButton, prevButton)
-    })
+    this.hiddenLeftHandle()
+    this.hiddenRightHandle()
   }
+  get leftHandle() {
+    return this.renderRoot?.querySelector('.container-handle-left') ?? null
+  }
+  get rightHandle() {
+    return this.renderRoot?.querySelector('.container-handle-right') ?? null
+  }
+  get slider() {
+    return this.renderRoot?.querySelector('.container-slider') ?? null
+  }
+  hiddenLeftHandle() {
+    this.observer.observe(this.slider.lastElementChild)
+  }
+
+  hiddenRightHandle() {
+    this.observer.observe(this.slider.children[4] || this.slider.children[0])
+  }
+  handleIntersection(element, handle) {
+    if (element.isIntersecting) {
+      handle.classList.add('hidden')
+      handle.classList.remove('visible')
+    } else {
+      handle.classList.remove('hidden')
+      handle.classList.add('visible')
+    }
+  }
+
+  leftClick(e) {
+    const leftHandle = e.target
+    const slider = leftHandle.closest('.container').querySelector('.container-slider')
+    const sliderIndex = parseInt(getComputedStyle(slider).getPropertyValue('--slider-index'))
+    slider.style.setProperty('--slider-index', sliderIndex + 1)
+    this.hiddenLeftHandle, this.hiddenRightHandle
+  }
+  rightClick(e) {
+    const righttHandle = e.target
+    const slider = righttHandle.closest('.container').querySelector('.container-slider')
+    const sliderIndex = parseInt(getComputedStyle(slider).getPropertyValue('--slider-index'))
+    slider.style.setProperty('--slider-index', sliderIndex - 1)
+    this.hiddenLeftHandle, this.hiddenRightHandle
+  }
+
   render() {
     const moviesToRender = this.moviesCollection.map((trend) => {
       return html` <movie-component class="movie" image=${trend.poster}></movie-component> `
     })
+
     return html`
       <div class="carousel-container">
         <h4>${this.moviesCollection.length <= 2 ? this.moviesCollection[0] : 'Trends'}</h4>
-        <div class="movie-carousel">
-          <div class="movie-container">
-            ${this.moviesCollection.length <= 2
-              ? this.moviesCollection[1].map((trend) => {
-                  return html`
-                    <movie-component class="movie" image=${trend.poster}></movie-component>
-                  `
-                })
-              : moviesToRender}
-          </div>
+      </div>
+      <div class="container">
+        <button
+          @click=${this.leftClick}
+          class="container-handle container-handle-left"
+        ></button>
+        <div class="container-slider ">
+          ${this.moviesCollection.length <= 2
+            ? this.moviesCollection[1].map((trend) => {
+                return html`
+                  <movie-component class="movie" image=${trend.poster}></movie-component>
+                `
+              })
+            : moviesToRender}
         </div>
-        <div class="carousel-buttons">
-          <button class="prev-button" disabled>&lt;</button>
-          <button class="next-button">&gt;</button>
-        </div>
+        <button
+          @click=${this.rightClick}
+          class="container-handle container-handle-right"
+        ></button>
       </div>
     `
   }

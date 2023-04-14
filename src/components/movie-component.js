@@ -1,17 +1,17 @@
-import { LitElement, html, css } from 'lit'
+import { LitElement, html, css, unsafeCSS } from 'lit'
 import { registerImage } from '../utils/lazy-loading'
-
+import movie from '../styles/components/movie.scss?inline'
 export class MovieComponent extends LitElement {
   static get properties() {
     return {
       image: { type: String, attribute: true }
     }
   }
-  static styles = [
+  /*   static styles = [
     css`
       :host {
         display: block;
-        flex: 0 0 7.5rem;
+        flex: 0 0 25%;
         z-index: 1;
       }
       img {
@@ -40,7 +40,8 @@ export class MovieComponent extends LitElement {
         }
       }
     `
-  ]
+  ] */
+  static styles = [unsafeCSS(movie)]
   firstUpdated() {
     const img = this.shadowRoot.querySelector('img')
     registerImage(img)
