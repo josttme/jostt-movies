@@ -41,3 +41,26 @@ export async function getMoviesByCategory(id) {
   }))
 	return {moviesCategories}
 }
+
+export async function getMovieById(id) {
+  const res = await api(`movie/${id}`)
+  const movie = {
+    idMovie: res.data.id,
+    title: res.data.title,
+    posterImage: res.data.poster_path,
+    backdropImage: res.data.backdrop_path,
+    releaseDate: res.data.release_date,
+    description: res.data.overview,
+    ratingAverage: res.data.vote_average
+  }
+  return { movie }
+}
+export async function getRelatedMoviesId(id) {
+  const res = await api(`movie/${id}/recommendations`)
+  const moviesCategories = res.data.results.map((category) => ({
+    id: category.id,
+    title: category.title,
+    poster: category.poster_path
+  }))
+  return { moviesCategories }
+}

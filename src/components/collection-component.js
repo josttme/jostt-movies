@@ -196,13 +196,16 @@ export class CollectionComponent extends LitElement {
   }
 
   render() {
-    const moviesToRender = this.moviesCollection.map((trend) => {
-      return html` <movie-component class="movie" image=${trend.poster}></movie-component> `
+    if (!this.moviesCollection[1].length) return
+    const moviesToRender = this.moviesCollection.map((movie) => {
+      return html`
+        <movie-component class="movie" id=${movie.id} image=${movie.poster}></movie-component>
+      `
     })
 
     return html`
       <div class="carousel-container">
-        <h4>${this.moviesCollection.length <= 2 ? this.moviesCollection[0] : 'Trends'}</h4>
+        <h4>${this.moviesCollection[0]}</h4>
       </div>
       <div class="container">
         <button
@@ -211,9 +214,9 @@ export class CollectionComponent extends LitElement {
         ></button>
         <div class="container-slider ">
           ${this.moviesCollection.length <= 2
-            ? this.moviesCollection[1].map((trend) => {
+            ? this.moviesCollection[1].map((movie) => {
                 return html`
-                  <movie-component class="movie" image=${trend.poster}></movie-component>
+                  <movie-component id=${movie.id} image=${movie.poster}></movie-component>
                 `
               })
             : moviesToRender}

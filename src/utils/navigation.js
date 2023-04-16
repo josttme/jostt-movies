@@ -1,4 +1,7 @@
+const homeContainer = document.querySelector('#homeContainer')
+const movieContainer = document.querySelector('#movieContainer')
 import { goTo } from '../router'
+
 /*
 arrow.addEventListener('click', (e) => {
   e.preventDefault()
@@ -15,12 +18,14 @@ myListBtn.addEventListener('click', (e) => {
  */
 export function homePage(result) {
   console.log('Home')
-  const app = document.querySelector('#app')
-  app.innerHTML = result
-  /*   homeContainer.childNodes.length === 0 ? (homeContainer.innerHTML = result) : null
+  homeContainer.childNodes.length === 0 ? (homeContainer.innerHTML = result) : null
+  /*   const home = document.querySelector('Home-page')
+  showOrHideSections('add', home)
+ */
   showOrHideSections('add', homeContainer)
-  showOrHideSections('remove', genericCategoryContainer)
   showOrHideSections('remove', movieContainer)
+  /*
+showOrHideSections('remove', genericCategoryContainer)
   showOrHideSections('remove', arrow) */
 }
 export function categoriesPage(result) {
@@ -41,10 +46,13 @@ export function seacrhPage(result) {
 }
 export function movie(result) {
   console.log('movie')
-  /*   movieContainer.innerHTML = result
+  /*   movieContainer.childNodes.length === 0 ? (movieContainer.innerHTML = result) : null */
+  showOrHideSections('remove', homeContainer)
+  showOrHideSections('add', movieContainer)
+  movieContainer.innerHTML = result
+  /*  
   showOrHideSections('remove', homeContainer)
   showOrHideSections('remove', genericCategoryContainer)
-  showOrHideSections('add', movieContainer)
   showOrHideSections('add', arrow) */
 }
 

@@ -1,5 +1,4 @@
 import './styles/main.css'
 import initRouter from './router'
-import './containers'
+import './views'
 initRouter()
-// Crea los elementos div

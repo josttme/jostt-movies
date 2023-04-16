@@ -40,8 +40,9 @@ export class Home extends LitElement {
   ]
   async firstUpdated() {
     const { movies } = await getTrendingMovies()
+    const trendsMovies = ['Trends', [...movies]]
     const moviesCategories = await this.categoriesCollection(this.currentPage, this.pageSize)
-    this.collectionCategories = [movies, ...moviesCategories]
+    this.collectionCategories = [trendsMovies, ...moviesCategories]
     this.dataReady = true
   }
   async categoriesCollection(currentPage, pageSize) {
