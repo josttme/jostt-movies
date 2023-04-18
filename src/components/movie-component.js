@@ -19,13 +19,13 @@ export class MovieComponent extends LitElement {
   }
   render() {
     return html`
-      <img
-        class="skeleton-loading"
-        src="https://res.cloudinary.com/josttme/image/upload/v1681269401/jostt.me/images/images/transparent_xz4qvr_zlokwp.webp"
-        data-src=${`https://image.tmdb.org/t/p/w300/${this.image}`}
-        id=${this.id}
-        @click=${this.click}
-      />
+      <a id=${this.id} @click=${this.click}>
+        <img
+          class="skeleton-loading"
+          src="https://res.cloudinary.com/josttme/image/upload/v1681269401/jostt.me/images/images/transparent_xz4qvr_zlokwp.webp"
+          data-src=${`https://image.tmdb.org/t/p/w300/${this.image}`}
+        />
+      </a>
     `
   }
 }

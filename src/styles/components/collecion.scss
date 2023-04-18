@@ -10,13 +10,12 @@ $img-gap: 0.25rem;
   width: 100%;
   z-index: 10;
   h4 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin: 1rem 0 0 0.25rem;
   }
   & .container {
     display: flex;
     justify-content: center;
-    overflow: hidden;
     &-slider {
       display: flex;
       width: 100%;
@@ -47,7 +46,7 @@ $img-gap: 0.25rem;
         justify-content: center;
         align-items: center;
         border: none;
-        border-radius: 10px;
+        border-radius: 9.5px;
         flex-shrink: 0;
         background-color: rgba($black, 0.7);
         margin: $img-gap 0;
@@ -61,21 +60,19 @@ $img-gap: 0.25rem;
         &-right {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
-          & img {
-            transform: rotate(180deg);
-          }
         }
         &:hover,
         &:focus {
           background-color: rgba($black, 0.9);
         }
-        & img {
-          width: 25%;
+        & svg {
+          width: 5rem;
+          fill: $white;
           opacity: 0.5;
           transition: 250ms ease-in-out;
         }
-        &:hover img {
-          opacity: 1;
+        &:hover svg {
+          opacity: 0.8;
           scale: 1.1;
         }
       }

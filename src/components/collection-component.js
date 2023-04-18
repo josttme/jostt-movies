@@ -208,10 +208,13 @@ export class CollectionComponent extends LitElement {
         <h4>${this.moviesCollection[0]}</h4>
       </div>
       <div class="container">
-        <button
-          @click=${this.leftClick}
-          class="container-handle container-handle-left"
-        ></button>
+        <button @click=${this.leftClick} class="container-handle container-handle-left">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24">
+            <path
+              d="M14 8.4 10.4 12l3.6 3.6a1 1 0 0 1-1.4 1.4l-4.3-4.3a1 1 0 0 1 0-1.4L12.6 7A1 1 0 1 1 14 8.4Z"
+            />
+          </svg>
+        </button>
         <div class="container-slider ">
           ${this.moviesCollection.length <= 2
             ? this.moviesCollection[1].map((movie) => {
@@ -221,10 +224,13 @@ export class CollectionComponent extends LitElement {
               })
             : moviesToRender}
         </div>
-        <button
-          @click=${this.rightClick}
-          class="container-handle container-handle-right"
-        ></button>
+        <button @click=${this.rightClick} class="container-handle container-handle-right">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24">
+            <path
+              d="m10 15.6 3.6-3.6L10 8.4l-.1-.1A1 1 0 0 1 11.4 7l4.3 4.3a1 1 0 0 1 0 1.4L11.4 17a1 1 0 1 1-1.4-1.4Z"
+            />
+          </svg>
+        </button>
       </div>
     `
   }
