@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit'
-
+import { goTo } from '../router'
 export class SearchComponent extends LitElement {
   static styles = [
     css`
@@ -83,16 +83,7 @@ export class SearchComponent extends LitElement {
       }
     `
   ]
-  handleSubmit(e) {
-    e.preventDefault()
-    // recupera el value de el input de nombre query
-    const input = new window.FormData(e.target)
-    const query = input.get('query')
-    console.log(query.replace(/\s+/g, ' ').trim())
-    if (query === '') {
-      setError('Por favor ingresa una búsqueda')
-    }
-  }
+
   render() {
     return html`
       <form @submit=${this.handleSubmit}>
@@ -112,6 +103,23 @@ export class SearchComponent extends LitElement {
         </button>
       </form>
     `
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    const inputSearch = this.renderRoot?.querySelector('input') ?? null
+    let query = e.target.firstElementChild.value
+
+    if (query === '') {
+      console.error('Por favor ingresa una búsqueda')
+      return
+    }
+    let inputValue = query
+      .replace(/\s+/g, ' ')
+      .replace(/<[^>]*>/g, '')
+      .trim()
+    goTo(`/search=${inputValue}`)
+    inputSearch.value = ''
   }
 }
 customElements.define('search-component', SearchComponent)

@@ -51,8 +51,13 @@ export class Category extends LitElement {
     }
   `
   async firstUpdated() {
-    const { genericCategories, totalPages, nameCategory } = await getPathRoute(this.page)
-    this.listMovies = genericCategories
+    const { listMovies, totalPages, nameCategory } = await getPathRoute(this.page)
+    if (listMovies.length === 0) {
+      const title = this.shadowRoot.querySelector('h4')
+      title.innerHTML = `Movie not found: "${nameCategory}"`
+      return
+    }
+    this.listMovies = listMovies
     this.totalPages = totalPages
     this.title = nameCategory
   }
@@ -79,8 +84,8 @@ export class Category extends LitElement {
       return
     }
 
-    const { genericCategories, totalPages, nameCategory } = await getPathRoute(this.page)
-    this.listMovies = [...this.listMovies, ...genericCategories]
+    const { listMovies, totalPages, nameCategory } = await getPathRoute(this.page)
+    this.listMovies = [...this.listMovies, ...listMovies]
 
     this.isUpdating = false
   }

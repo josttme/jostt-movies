@@ -16,8 +16,8 @@ export async function getTrendingMovies(page) {
     title: movie.title,
     poster: movie.poster_path
   }))
-  const totalPagesApi = res.data.total_pages
-  return { movies, totalPagesApi }
+  const totalPages = res.data.total_pages
+  return { movies, totalPages }
 }
 
 export async function getCategories() {
@@ -79,4 +79,17 @@ export async function getCategoriesGeneric(id, page) {
   const totalPages = res.data.total_pages
 
   return { genericCategories, totalPages }
+}
+
+export async function getMoviesBySearch(query, page) {
+  const res = await api('search/movie', {
+    params: { query, page }
+  })
+  const movies = res.data.results.map((movie) => ({
+    id: movie.id,
+    poster: movie.poster_path
+  }))
+  const totalPages = res.data.total_pages
+
+  return { movies, totalPages }
 }
