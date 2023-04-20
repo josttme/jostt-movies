@@ -54,7 +54,7 @@ export class Home extends LitElement {
   async updated() {
     const collectionContainer = this.shadowRoot.querySelector('.collection-container')
     const lastCollection = collectionContainer.lastElementChild
-    if (lastCollection && lastCollection.localName !== 'collection-component') return
+    if (!lastCollection) return
     const options = { rootMargin: '0px' }
     const isIntersecting = await useObserver(lastCollection, options)
     this.currentPage++

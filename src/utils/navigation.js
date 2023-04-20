@@ -1,5 +1,6 @@
 const homeContainer = document.querySelector('#homeContainer')
 const movieContainer = document.querySelector('#movieContainer')
+const genericCategoryContainer = document.querySelector('#genericCategoryContainer')
 import { goTo } from '../router'
 
 /*
@@ -24,15 +25,18 @@ export function homePage(result) {
  */
   showOrHideSections('add', homeContainer)
   showOrHideSections('remove', movieContainer)
+  showOrHideSections('remove', genericCategoryContainer)
   /*
-showOrHideSections('remove', genericCategoryContainer)
   showOrHideSections('remove', arrow) */
 }
 export function categoriesPage(result) {
   console.log('category')
-  /*   genericCategoryContainer.innerHTML = result
   showOrHideSections('remove', homeContainer)
+  showOrHideSections('remove', movieContainer)
   showOrHideSections('add', genericCategoryContainer)
+  genericCategoryContainer.innerHTML = result
+  /*   
+  showOrHideSections('remove', homeContainer)
   showOrHideSections('remove', movieContainer)
   showOrHideSections('add', arrow) */
 }
@@ -49,10 +53,10 @@ export function movie(result) {
   /*   movieContainer.childNodes.length === 0 ? (movieContainer.innerHTML = result) : null */
   showOrHideSections('remove', homeContainer)
   showOrHideSections('add', movieContainer)
+  showOrHideSections('remove', genericCategoryContainer)
   movieContainer.innerHTML = result
   /*  
   showOrHideSections('remove', homeContainer)
-  showOrHideSections('remove', genericCategoryContainer)
   showOrHideSections('add', arrow) */
 }
 

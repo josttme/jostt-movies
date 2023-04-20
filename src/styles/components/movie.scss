@@ -36,6 +36,7 @@
     border-radius: 10px;
   }
 }
+
 .skeleton-loading {
   background: $secondary-color;
   background: linear-gradient(70deg, #06459b 25%, #0155c4 50%, #06459b 65%);
@@ -74,4 +75,8 @@
   :host {
     max-width: calc((100% - 5rem) / 10);
   }
+}
+
+:host-context(category-page) {
+  max-width: initial;
 }

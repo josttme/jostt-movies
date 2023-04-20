@@ -64,3 +64,19 @@ export async function getRelatedMoviesId(id) {
   }))
   return { moviesCategories }
 }
+
+export async function getCategoriesGeneric(id, page) {
+  const res = await api('discover/movie', {
+    params: {
+      with_genres: id,
+      page
+    }
+  })
+  const genericCategories = res.data.results.map((category) => ({
+    id: category.id,
+    poster: category.poster_path
+  }))
+  const totalPages = res.data.total_pages
+
+  return { genericCategories, totalPages }
+}
