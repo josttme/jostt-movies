@@ -65,7 +65,6 @@ export class Home extends LitElement {
   }
   render() {
     return html`
-      <search-component></search-component>
       <billboard-component></billboard-component>
       <list-categories-component></list-categories-component>
       <section class="collection-container">
