@@ -42,11 +42,10 @@ $img-gap: 0.25rem;
         overflow-x: initial;
       }
       &-handle {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: grid;
+        place-content: center;
         border: none;
-        border-radius: 9.5px;
+        border-radius: 9.1px;
         flex-shrink: 0;
         background-color: rgba($black, 0.7);
         margin: $img-gap 0;

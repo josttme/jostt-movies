@@ -39,6 +39,7 @@ export class Movie extends LitElement {
     posterImageMovie.src = `https://image.tmdb.org/t/p/w500/${posterImage}`
     // get release movies
     const { moviesCategories } = await getRelatedMoviesId(movieId)
+    if (!moviesCategories.length) return
     const releaseMoviesList = ['Related movies', [...moviesCategories]]
     const collectionComponent = document.createElement('collection-component')
     collectionComponent.moviesCollection = releaseMoviesList
